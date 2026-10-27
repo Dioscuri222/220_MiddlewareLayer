@@ -1,13 +1,13 @@
-import "dotenv/config"
-import Joi, { extend } from "joi"
+import "dotenv/config";
+import Joi, { extend } from "joi";
 import express from 'express';
-import PG from "pg";
+import pg from "pg";
 
 const app = express()
 const port = process.env.PORT
 const { Pool } = pg
 
-const pool = new Pool ({
+const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
@@ -16,4 +16,21 @@ const pool = new Pool ({
 })
 
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
+
+// Middleware Logging
+app.use((req, res, next) => {
+    const start = Date, now()
+
+    res.on('finish', () => {
+
+        console.log({
+            method: req.method,
+            url: req.originalUrl,
+            statusCode: req.statusCode,
+            duration: `${duration} ms`
+        })
+    })
+    next()
+
+})
