@@ -1,5 +1,5 @@
 import "dotenv/config";
-import Joi, { extend } from "joi";
+import Joi from "joi";
 import express from 'express';
 import pg from "pg";
 
