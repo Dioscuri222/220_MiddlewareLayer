@@ -78,7 +78,7 @@ function validateBody(schema){
                 }))
             )
         }
-        req.body = value,
+        req.body = value;
         next()
     }
 }
@@ -105,9 +105,13 @@ function validateParams(schema){
 }
 
 
-app.get('/', async(req, res) => {
-    const result = await pool.query('SELECT * FROM biodata ORDER BY id')
-    return successResponse(res, 'Data berhasil diambil', result.rows)
+app.get('/', async (req, res, next) => {
+    try {
+        const result = await pool.query('SELECT * FROM biodata ORDER BY id')
+        return successResponse(res, 'Data berhasil diambil', result.rows)
+    } catch (err) {
+        next(err) 
+    }
 })
 
 app.post('/biodata', validateBody(biodataSchema), async(req,res)=>{
@@ -115,7 +119,7 @@ app.post('/biodata', validateBody(biodataSchema), async(req,res)=>{
     const result = await pool.query(
         `INSERT INTO biodata (id, nama, nim, kelas)
         VALUES ($1, $2, $3, $4)
-        RETURNING *`
+        RETURNING *`,
         [id ?? null, nama, nim, kelas]
     )
     return successResponse(res, 'Data berhasil ditambahkan', result.rows[0], 201)
@@ -165,7 +169,7 @@ app.use((req, res) => {
 //global error handler
 app.use((err, req, res, next) => {
     console.error(err)
-    if(res.headerSent){
+    if(res.headersSent){
         return next(err)
     }
     return errorResponse(res, 'Terjadi kesalahan pada server', 500)
