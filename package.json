@@ -1,13 +1,13 @@
 {
   "name": "pertemuan-7",
   "version": "1.0.0",
-  "description": "",
+  "description": "Pertemuan 7 - MiddlewareLayer",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Fasya",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
