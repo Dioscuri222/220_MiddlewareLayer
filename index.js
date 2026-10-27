@@ -1,5 +1,5 @@
 import "dotenv/config"
-import Joi from "joi"
+import Joi, { extend } from "joi"
 import express from 'express';
 import PG from "pg";
 
@@ -14,3 +14,6 @@ const pool = new Pool ({
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
 })
+
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
